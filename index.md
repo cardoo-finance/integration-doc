@@ -1,37 +1,24 @@
-## Welcome to GitHub Pages
+# Introduction
+Our solution implements all the crucial steps, which are: 
+* Calculating the price of our product for a specific car rental offer
+* Receiving a payment from a customer (incl. some prepay amount for a car rental)
+* Identification and verification of a customer
+* Communicating with your system via API regarding the status of verification/approval process
 
-You can use the [editor on GitHub](https://github.com/cardoo-finance/integration-doc/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+These steps will be described in following sections from the points of view of a customer and your system.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Customer’s Point of View
+A customer is browsing a website of one of our partners and looking for a car to rent for a specified time interval. 
+When they open a detailed view of one of the rental offers there’s a section with additional services which includes our product - Deposit Free - with a price. 
+If a customer chooses to use our solution and proceeds to book, they get redirected to our Customer Flow page where they: 
+* pay for an order 
+* upload their ID document. 
+After completion of these steps the order undergoes the approval process which includes verification of a customer.
+When the decision is made to either approve or reject the order, the corresponding email will be sent to a customer. In case of approval a customer will also receive an issued guarantee agreement. In case of rejection we will unhold the money on a customer's card within 24 hours.
 
-### Markdown
+## Your System’s Point of View
+Your system forms the list of additional services for a specific car rental offer. To get a price for Cardoo’s Deposit Free your system has to make the price request to our system.
+When a customer chooses our solution and starts the booking process, your system will need to make the order creation request to our system and in response will get an URL to the Customer Flow. Your system will need to redirect a customer to that URL instead of your usual payment page.
+After our order approval process has been completed, your system will receive a signal which will not contain the actual decision. Upon receiving that signal your system should make a request to our system to get our decision. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/cardoo-finance/integration-doc/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
