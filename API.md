@@ -142,7 +142,7 @@ Example request body:
     "failure_url": "https://failure_url"
   },
   "acquiring": {
-    "prepay": "full", # or "partial"
+    "prepay": "full",
     "price": {
       "cents": 10000,
       "currency_iso": "EUR"
@@ -182,7 +182,7 @@ Customer last name
  `email`
 Customer email
 
- `phone_number` 
+ `phone_number`
 Customer phone number with country code in E.164 format.
 
 ###### pickup_time
@@ -228,7 +228,7 @@ The URL for redirecting the customer in case he fails to complete a transaction 
 *Optional* Object with the amount that must be acquired from the customer for the rental by Cardoo.
 
 `prepay`
-*Optional* Indicates whether the acquiring sum is full rental price or just part of it. Can be  `full` or `partial`  
+*Optional* Indicates whether the acquiring sum is full rental price or just part of it. Can be  `full` or `partial`.
 
  `price`
 Amount that must be acquired [Money Object](#other-conventions).
