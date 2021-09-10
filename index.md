@@ -13,17 +13,19 @@ When they open a detailed view of one of the rental offers there’s a section w
 If a customer chooses to use our solution and proceeds to book, they get redirected to our Customer Flow page where they: 
 * pay for an order 
 * upload their ID document. 
+
 After completion of these steps the order undergoes the approval process which includes verification of a customer.
 When the decision is made to either approve or reject the order, the corresponding email will be sent to a customer. In case of approval a customer will also receive an issued guarantee agreement. In case of rejection we will unhold the money on a customer's card within 24 hours.
 
 ## Your System’s Point of View
 Your system forms the list of additional services for a specific car rental offer. To get a price for Cardoo’s Deposit Free your system has to make the price request to our system.
+
 When a customer chooses our solution and starts the booking process, your system will need to make the order creation request to our system and in response will get an URL to the Customer Flow. Your system will need to redirect a customer to that URL instead of your usual payment page.
+
 After our order approval process has been completed, your system will receive a signal which will not contain the actual decision. Upon receiving that signal your system should make a request to our system to get our decision. 
 
-# API Documentation
 
-# Cardoo API
+# API Documentation
 The Cardoo API allows you to manage orders and request prices for our products in a simple way using conventional HTTP requests.
 
 #### Requests
