@@ -1,4 +1,4 @@
-# Cardoo Integration Documentation
+# Cardoo Integration Guide
 
 ## Introduction
 Our solution implements all the crucial steps, which are: 
