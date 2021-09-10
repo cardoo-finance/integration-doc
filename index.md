@@ -1,6 +1,12 @@
 # Cardoo Integration Guide
 
-## Introduction
+## Table of Contents
+- [Introduction](#introduction)
+- [API Reference](#api-reference)
+  - [Overview](#api-overview)
+  - [Price Request](#api-price-request)
+
+## Introduction <a name="introduction"></a>
 Our solution implements all the crucial steps, which are: 
 * Calculating the price of our product for a specific car rental offer
 * Receiving a payment from a customer (incl. some prepay amount for a car rental)
@@ -27,7 +33,8 @@ When a customer chooses our solution and starts the booking process, your system
 After our order approval process has been completed, your system will receive a signal which will not contain the actual decision. Upon receiving that signal your system should make a request to our system to get our decision. 
 
 
-# API Documentation
+# API Reference <a name="api-reference"></a>
+## Overview  <a name="api-overview"></a>
 The Cardoo API allows you to manage orders and request prices for our products in a simple way using conventional HTTP requests.
 
 #### Requests
@@ -35,7 +42,7 @@ All requests should be made using the HTTPS protocol so that traffic is encrypte
 
 When passing parameters in a POST request, parameters must be passed as a JSON object containing attribute names and values as key-value pairs. You must also set `Content-Type` header to `application/json`
 
-#### Authentication
+#### Authentication  <a name="api-auth"></a>
 All requests to Cardoo API must be authenticated.
 
 In order to make an authenticated request, include an  `Authorization` header containing your token as follows: `Access-Token: YOUR_TOKEN`
@@ -71,7 +78,7 @@ Monetary values are represented as an object with value in cents and currency in
 }
 ```
 
-## Price Request
+## Price Request  <a name="api-price-request"></a>
 Price request endpoint allows you to request a price of our product for a customer.
 
 ### POST /partner_api/price_request
