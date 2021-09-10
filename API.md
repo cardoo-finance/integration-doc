@@ -73,7 +73,7 @@ Example request body:
 Vehicle name as a string.
 
 ###### deposit_amount
-Deposit amount for the vehicle as a [Money Object]().
+Deposit amount for the vehicle as a [Money Object](#other-conventions).
 
 ###### pickup_time
 
@@ -97,10 +97,10 @@ Example response body:
 ```
 
 ###### price_request_id
-UUID for the price request. Must be used for [creating an order]().
+UUID for the price request. Must be used for [creating an order](#post-partner_apiordersonetime).
 
 ###### price
-Price for Cardoo product for the customer as a [Money Object]().
+Price for Cardoo product for the customer as a [Money Object](#other-conventions).
 
 ###### timestamp
 Time when the price was calculated.
@@ -167,7 +167,7 @@ Order ID in your system
 
 ###### price_request_id
 
-This is the ID that you got when [requesting the price]()
+This is the ID that you got when [requesting the price](#post-partner_apiprice_request)
 
 ###### customer
 
@@ -231,15 +231,15 @@ The URL for redirecting the customer in case he fails to complete a transaction 
 *Optional* Indicates whether the acquiring sum is full rental price or just part of it. Can be  `full` or `partial`  
 
  `price`
-Amount that must be acquired [Money Object]().
+Amount that must be acquired [Money Object](#other-conventions).
 
 **deposit_fee**
 
 `price`
-Price for Cardoo product for the customer as a [Money Object]().
+Price for Cardoo product for the customer as a [Money Object](#other-conventions).
 
 `deposit_amount`
-Deposit amount for the vehicle as a [Money Object]().
+Deposit amount for the vehicle as a [Money Object](#other-conventions).
 
 #### Response Body Schema
 Example response body:
