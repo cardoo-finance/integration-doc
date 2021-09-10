@@ -247,7 +247,7 @@ Example response body:
 {
   "order_id": "878246a6-b2cb-41fa-80d0-6cb97e569836",
   "invoice_id": "56efa4bd-2e26-4fcf-98a7-bc2bd6339a59",
-	"customer_flow_url": "https://cardoo.finance/orders/878246a6-b2cb-41fa-80d0-6cb97e569836/flow"
+  "customer_flow_url": "https://cardoo.finance/orders/878246a6-b2cb-41fa-80d0-6cb97e569836/flow"
 }
 ```
 
