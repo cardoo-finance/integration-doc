@@ -1,12 +1,29 @@
 # Cardoo Integration Guide
 
 ## Table of Contents
-- [Introduction](#introduction)
+
+- [Definitions](#definitions)
+- [Flow Overview](#flow-overview)
+  - [Customer’s Point of View](#customers-pov)
+  - [Your System’s Point of View](#your-systems-pov)
 - [API Reference](#api-reference)
   - [Overview](#api-overview)
   - [Price Request](#api-price-request)
 
-## Introduction <a name="introduction"></a>
+## Definitions <a name="definitions"></a>
+| Term | Definition |
+| --- |  --- |
+| Acquiring | A service of transferring money from a customer to a car rental agency |
+| Customer | A person renting a car |
+| Deposit Free | A service enabling a customer to rent a car without making a security deposit |
+| Issued Guarantee | A legally binding commitment between Cardoo and a car rental agency in accordance with a contract in a context of an Order |
+| Guarantee State | Our decision regarding a guarantee issuance |
+| Order | An entity, a collection of services in a context of a specified car rental booking |
+| Order Approval Process | Our internal process aimed to determine whether we are willing to issue a Guarantee |
+| Price Request | A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters |
+
+
+## Flow Overview <a name="flow-overview"></a>
 Our solution implements all the crucial steps, which are: 
 * Calculating the price of our product for a specific car rental offer
 * Receiving a payment from a customer (incl. some prepay amount for a car rental)
@@ -15,7 +32,7 @@ Our solution implements all the crucial steps, which are:
 
 These steps will be described in following sections from the points of view of a customer and your system.
 
-### Customer’s Point of View
+### Customer’s Point of View  <a name="customers-pov"></a>
 A customer is browsing a website of one of our partners and looking for a car to rent for a specified time interval. 
 When they open a detailed view of one of the rental offers there’s a section with additional services which includes our product - Deposit Free - with a price. 
 If a customer chooses to use our solution and proceeds to book, they get redirected to our Customer Flow page where they: 
@@ -25,7 +42,7 @@ If a customer chooses to use our solution and proceeds to book, they get redirec
 After completion of these steps the order undergoes the approval process which includes verification of a customer.
 When the decision is made to either approve or reject the order, the corresponding email will be sent to a customer. In case of approval a customer will also receive an issued guarantee agreement. In case of rejection we will unhold the money on a customer's card within 24 hours.
 
-### Your System’s Point of View
+### Your System’s Point of View <a name="your-systems-pov"></a>
 Your system forms the list of additional services for a specific car rental offer. To get a price for Cardoo’s Deposit Free your system has to make the price request to our system.
 
 When a customer chooses our solution and starts the booking process, your system will need to make the order creation request to our system and in response will get an URL to the Customer Flow. Your system will need to redirect a customer to that URL instead of your usual payment page.
