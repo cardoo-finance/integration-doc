@@ -11,6 +11,8 @@
   - [Price Request](#api-price-request)
   - [One-time orders](#api-orders-onetime)
     - [Creating an Order (POST)](#api-orders-onetime-post)
+  - [Getting order details (GET)](#api-order-get)
+  - [Callbacks](#api-callbacks)
 
 ## Definitions <a name="definitions"></a>
 - **Acquiring** - A service of transferring money from a customer to a car rental agency 
@@ -62,7 +64,7 @@ When passing parameters in a POST request, parameters must be passed as a JSON o
 #### Authentication
 All requests to Cardoo API must be authenticated.
 
-In order to make an authenticated request, include an  `Authorization` header containing your token as follows: `Access-Token: YOUR_TOKEN`.
+In order to make an authenticated request, include an `Authorization` header containing your token as follows: `Access-Token: YOUR_TOKEN`.
 
 **TODO:** Add information on how to receive the Token.
 
@@ -112,18 +114,23 @@ Example request body:
 ```json
 {
   "vehicle": "Tesla Roadster",
+  "session_cookie_id": 1,
   "deposit_amount": {
     "cents": 500000,
     "currency_iso": "EUR"
   },
   "pickup_time": "2021-12-24T10:00:00Z",
-  "dropoff_time": "2021-12-38T10:00:00Z"
+  "dropoff_time": "2021-12-27T10:00:00Z"
 }
 ```
 
 ###### vehicle
 
 Vehicle name as a string.
+
+###### session_cookie_id
+
+Session cookie ID of the customer in your system.
 
 ###### deposit_amount
 Deposit amount for the vehicle as a [Money Object](#other-conventions).
@@ -140,10 +147,10 @@ Time when the rental is supposed to end.
 Example response body:
 ```json
 {
-  "price_request_id": "bbeab7d5-c80c-4cba-a3ad-2fd6574baa8b",
-  "timestamp": "2021-12-20T12:15:38Z",
+  "price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
+  "timestamp": 1631556435543,
   "price": {
-    "cents": 2800,
+    "cents": 12000,
     "currency_iso": "EUR"
   }
 }
@@ -175,15 +182,15 @@ Example request body:
 ```json
 {
   "partner_order_id": "X666",
-  "price_request_id": "bbeab7d5-c80c-4cba-a3ad-2fd6574baa8b",
+  "price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
   "customer": {
     "first_name": "Jane",
     "last_name": "Doe",
     "email": "jane@gmail.com",
     "phone_number": "+1-541-754-3010"
   },
-  "pickup_time": "2021-12-24T10:00:00Z",
-  "dropoff_time": "2021-12-38T10:00:00Z",
+  "pickup_time": "2021-12-24T10:00:00+00:00",
+  "dropoff_time": "2021-12-28T10:00:00+00:00",
   "city": "Italy",
   "country": "Florence",
   "vehicle": "BMW I5",
@@ -298,9 +305,79 @@ Deposit amount for the vehicle as a [Money Object](#other-conventions).
 Example response body:
 ```json
 {
+  "order_id": "3a58ed01-9fab-45b4-b22b-c84478e68f1d",
+  "invoice_id": "b0427f76-b23c-49f9-b24d-91e300e6a6c6",
+  "customer_flow_url": "/orders/3a58ed01-9fab-45b4-b22b-c84478e68f1d/flow"
+}
+```
+
+###### order_id
+UUID of the created one-time order.
+
+###### invoice_id
+UUID of the invoice for the created one-time order.
+
+###### customer_flow_url
+URL where the customer must be redirected for starting a transaction with Cardoo.
+
+
+
+## Getting order details <a name="api-order-get"></a>
+Orders endpoint allows you to get order information, along with its guarantee issuance state and payment state.
+
+
+### GET /partner_api/orders/:id
+To get order details, send a `GET` request with order ID.
+
+
+#### Response Body Schema
+Example response body:
+```json
+{
   "order_id": "878246a6-b2cb-41fa-80d0-6cb97e569836",
   "invoice_id": "56efa4bd-2e26-4fcf-98a7-bc2bd6339a59",
-  "customer_flow_url": "https://cardoo.finance/orders/878246a6-b2cb-41fa-80d0-6cb97e569836/flow"
+  "customer_flow_url": "https://cardoo.finance/orders/878246a6-b2cb-41fa-80d0-6cb97e569836/flow",
+  "guarantee_issuance_state": "issued",
+  "invoice_state": "paid",
+  "product_settings": {
+    "partner_order_id": "X666",
+    "price_request_id": "bbeab7d5-c80c-4cba-a3ad-2fd6574baa8b",
+    "customer": {
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "email": "jane@gmail.com",
+      "phone_number": "+1-541-754-3010"
+    },
+    "pickup_time": "2021-12-24T10:00:00Z",
+    "dropoff_time": "2021-12-38T10:00:00Z",
+    "city": "Italy",
+    "country": "Florence",
+    "vehicle": "BMW I5",
+    "callbacks": {
+      "guarantee_state_changed": "https://callback_url"
+    },
+    "redirects": {
+      "success_url": "https://success",
+      "failure_url": "https://failure_url"
+    },
+    "acquiring": {
+      "prepay": "full",
+      "price": {
+        "cents": 10000,
+        "currency_iso": "EUR"
+      }
+    },
+    "deposit_free": {
+      "price": {
+        "cents": 2800,
+        "currency_iso": "EUR"
+      },
+      "deposit_amount": {
+        "cents": 500000,
+        "currency_iso": "EUR"
+      }
+    }
+  }
 }
 ```
 
@@ -313,3 +390,32 @@ TODO: check why do we need to expose this
 
 ###### customer_flow_url
 URL where the customer must be redirected for starting a transaction with Cardoo.
+
+###### guarantee_issuance_state
+Cardoo guarantee issuance state of the order. Can be one of:
+
+ - `pending` - decision hasn’t been made yet
+ - `issued` - guarantee has been successfully issued
+ - `denied` - guarantee has been denied
+
+###### invoice_state
+Payment state of the order.  Can be one of:
+
+- `issued` - invoice was issued, but not yet paid
+- `paid` - invoice was paid
+- `failed` - invoice was not paid due to some failure
+
+###### product_settings
+This is an object, that contains properties of the rental, callback and redirect URLs for this order, as well as properties of Cardoo product. For more details about the fields of this object, please refer to ["Creating an Order (POST)"](#api-orders-onetime-post) section.
+
+
+
+## Callbacks <a name="api-callbacks"></a>
+Cardoo uses callbacks for notifying partners about changes in orders.
+
+When the order state changes, we will make a POST request with an empty body to a URL that you specified when creating an order.
+
+If the URL that you provided as a callback URL is not available when we trigger the callback request, or returns a 500 status code, we will retry the request with increasing time intervals.
+
+#### Guarantee state changed
+This callback is triggered, when Cardoo issues or denies guarantee to the customer.
