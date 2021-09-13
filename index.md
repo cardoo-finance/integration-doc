@@ -13,16 +13,14 @@
     - [Creating an Order (POST)](#api-orders-onetime-post)
 
 ## Definitions <a name="definitions"></a>
-| Term | Definition |
-| --- |  --- |
-| Acquiring | A service of transferring money from a customer to a car rental agency |
-| Customer | A person renting a car |
-| Deposit Free | A service enabling a customer to rent a car without making a security deposit |
-| Issued Guarantee | A legally binding commitment between Cardoo and a car rental agency in accordance with a contract in a context of an Order |
-| Guarantee State | Our decision regarding a guarantee issuance |
-| Order | An entity, a collection of services in a context of a specified car rental booking |
-| Order Approval Process | Our internal process aimed to determine whether we are willing to issue a Guarantee |
-| Price Request | A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters |
+- **Acquiring** - A service of transferring money from a customer to a car rental agency 
+- **Customer** - A person renting a car 
+- **Deposit Free** - A service enabling a customer to rent a car without making a security deposit 
+- **Issued Guarantee** - A legally binding commitment between Cardoo and a car rental agency in accordance with a contract in a context of an Order 
+- **Guarantee State** - Our decision regarding a guarantee issuance 
+- **Order** - An entity, a collection of services in a context of a specified car rental booking 
+- **Order Approval Process** - Our internal process aimed to determine whether we are willing to issue a Guarantee 
+- **Price Request** - A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters 
 
 
 ## Flow Overview <a name="flow-overview"></a>
