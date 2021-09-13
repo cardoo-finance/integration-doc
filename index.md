@@ -9,6 +9,8 @@
 - [API Reference](#api-reference)
   - [Overview](#api-overview)
   - [Price Request](#api-price-request)
+  - [One-time orders](#api-orders-onetime)
+    - [Creating an Order (POST)](#api-orders-onetime-post)
 
 ## Definitions <a name="definitions"></a>
 | Term | Definition |
@@ -97,7 +99,7 @@ Monetary values are represented as an object with value in cents and currency in
 
 
 
-## Price Request
+## Price Request <a name="api-price-request"></a>
 Price request endpoint allows you to request a price of our product for a customer.
 
 
@@ -160,11 +162,11 @@ Time when the price was calculated.
 
 
 
-## One-time orders
+## One-time orders <a name="api-orders-onetime"></a>
 One-time orders endpoints allow you to create orders for customers that don’t have a subscription at Cardoo.
 
 
-### POST /partner_api/orders/onetime
+### POST /partner_api/orders/onetime <a name="api-orders-onetime-post"></a>
 To create a one-time order for a customer, send a `POST` request with parameters of a rental, price request ID, and required callbacks.
 
 When the one-time order was successfully calculated, the returned response status would be `201 Created`.
