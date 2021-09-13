@@ -11,7 +11,7 @@
   - [Price Request](#api-price-request)
   - [One-time orders](#api-orders-onetime)
     - [Creating an Order (POST)](#api-orders-onetime-post)
-  - [Getting order details (GET)](#api-order-get)
+    - [Getting order details (GET)](#api-orders-onetime-get)
   - [Callbacks](#api-callbacks)
 
 ## Definitions <a name="definitions"></a>
