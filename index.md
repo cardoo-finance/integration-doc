@@ -6,6 +6,7 @@
 - [Flow Overview](#flow-overview)
   - [Customer’s Point of View](#customers-pov)
   - [Your System’s Point of View](#your-systems-pov)
+- [Testing Guidelines](#)
 - [API Reference](#api-reference)
   - [Overview](#api-overview)
   - [Price Request](#api-price-request)
@@ -21,7 +22,7 @@
 - **Issued Guarantee** - A legally binding commitment between Cardoo and a car rental company in accordance with a contract in a context of an Order 
 - **Guarantee State** - Our decision regarding guarantee issuance 
 - **Order** - An entity, a collection of services in a context of a specified car rental booking
-- **One-time Order** - A type of order with fixed pickup and drop-off dates and no recurrent payments.
+- **One-time Order** - A type of order with fixed pickup and drop-off dates and no recurring payments.
 - **Order Approval Process** - Our internal process aimed to determine whether we are willing to issue a Guarantee 
 - **Price Request** - A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters 
 
