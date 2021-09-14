@@ -15,12 +15,13 @@
   - [Callbacks](#api-callbacks)
 
 ## Definitions <a name="definitions"></a>
-- **Acquiring** - A service of transferring money from a customer to a car rental agency 
+- **Acquiring** - Receiving car rental fee from customers' bank payment cards and transferring it to the car rental company in scope of the sales agency contract between Cardoo and the car rental company. 
 - **Customer** - A person renting a car 
 - **Deposit Free** - A service enabling a customer to rent a car without making a security deposit 
-- **Issued Guarantee** - A legally binding commitment between Cardoo and a car rental agency in accordance with a contract in a context of an Order 
-- **Guarantee State** - Our decision regarding a guarantee issuance 
-- **Order** - An entity, a collection of services in a context of a specified car rental booking 
+- **Issued Guarantee** - A legally binding commitment between Cardoo and a car rental company in accordance with a contract in a context of an Order 
+- **Guarantee State** - Our decision regarding guarantee issuance 
+- **Order** - An entity, a collection of services in a context of a specified car rental booking
+- **One-time Order** - A type of order with fixed pickup and drop-off dates and no recurrent payments.
 - **Order Approval Process** - Our internal process aimed to determine whether we are willing to issue a Guarantee 
 - **Price Request** - A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters 
 
@@ -64,7 +65,7 @@ When passing parameters in a POST request, parameters must be passed as a JSON o
 #### Authentication
 All requests to Cardoo API must be authenticated.
 
-In order to make an authenticated request, include an `Authorization` header containing your token as follows: `Access-Token: YOUR_TOKEN`.
+In order to make an authenticated request, include a header containing your token as follows: `Access-Token: YOUR_TOKEN`.
 
 **TODO:** Add information on how to receive the Token.
 
@@ -85,8 +86,10 @@ When you get a response in 400 range, it will contain an error object with code 
 }
 ```
 
-#### Other Conventions
+#### Date and Time Values
 Date and time values must be formatted according ISO 8601.
+
+#### Money Object
 
 Monetary values are represented as an object with value in cents and currency in ISO format. For example, 11.54 euros must be passed as 1154 cents:
 
@@ -133,7 +136,7 @@ Vehicle name as a string.
 Session cookie ID of the customer in your system.
 
 ###### deposit_amount
-Deposit amount for the vehicle as a [Money Object](#other-conventions).
+Deposit amount for the vehicle as a [Money Object](#money-object).
 
 ###### pickup_time
 
@@ -160,7 +163,7 @@ Example response body:
 UUID for the price request. Must be used for [creating an order](#post-partner_apiordersonetime).
 
 ###### price
-Price for Cardoo product for the customer as a [Money Object](#other-conventions).
+Price for Cardoo product for the customer as a [Money Object](#money-object).
 
 ###### timestamp
 Time when the price was calculated.
@@ -168,7 +171,7 @@ Time when the price was calculated.
 
 
 ## One-time orders <a name="api-orders-onetime"></a>
-One-time orders endpoints allow you to create orders for customers that don’t have a subscription at Cardoo.
+One-time orders endpoints allow you to create orders for customers.
 
 
 ### POST /partner_api/orders/onetime <a name="api-orders-onetime-post"></a>
@@ -284,21 +287,21 @@ The URL for redirecting the customer in case he fails to complete a transaction 
 
 ###### acquiring
 
-*Optional* Object with the amount that must be acquired from the customer for the rental by Cardoo.
+*Optional* See [Definitions](#definitions) for the description of our Acquiring service.
 
 `prepay`
 *Optional* Indicates whether the acquiring sum is full rental price or just part of it. Can be  `full` or `partial`.
 
  `price`
-Amount that must be acquired [Money Object](#other-conventions).
+Amount that must be charged from a customer and transferred to the car rental company [Money Object](#money-object).
 
 **deposit_fee**
 
 `price`
-Price for Cardoo product for the customer as a [Money Object](#other-conventions).
+Price for Cardoo's Deposit Free product (see [Definitions](#definitions)) for the customer as a [Money Object](#money-object).
 
 `deposit_amount`
-Deposit amount for the vehicle as a [Money Object](#other-conventions).
+Deposit amount for the vehicle as a [Money Object](#money-object).
 
 #### Response Body Schema
 Example response body:
