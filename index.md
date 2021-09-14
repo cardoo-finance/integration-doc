@@ -9,8 +9,8 @@
 - [Testing Guidelines](#)
 - [API Reference](#api-reference)
   - [Overview](#api-overview)
-  - [Price Request](#api-price-request)
   - [One-time orders](#api-orders-onetime)
+    - [Price Request (POST)](#api-orders-onetime-price-request)
     - [Creating an Order (POST)](#api-orders-onetime-post)
     - [Getting order details (GET)](#api-orders-onetime-get)
   - [Callbacks](#api-callbacks)
@@ -103,12 +103,12 @@ Monetary values are represented as an object with value in cents and currency in
 
 
 
-## Price Request <a name="api-price-request"></a>
+## Price Request <a name="api-orders-onetime-price-request"></a>
 Price request endpoint allows you to request a price of our product for a customer.
 
 
-### POST /partner_api/price_request
-To create a price request that can later be used for creating an order, send a `POST` request with parameters of a rental.
+### POST /partner_api/orders/onetime/deposit_free_price_request
+To create a deposit free price request that can later be used for creating a one-time order, send a `POST` request with parameters of a rental.
 
 When the price was successfully calculated, the response status would be `201 Created`.
 
@@ -151,17 +151,17 @@ Time when the rental is supposed to end.
 Example response body:
 ```json
 {
-  "price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
+  "deposit_free_price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
   "timestamp": 1631556435543,
-  "price": {
+  "deposit_free_price": {
     "cents": 12000,
     "currency_iso": "EUR"
   }
 }
 ```
 
-###### price_request_id
-UUID for the price request. Must be used for [creating an order](#post-partner_apiordersonetime).
+###### deposit_free_price_request_id
+UUID for the deposit free price request. Must be used for [creating an order](#api-orders-onetime-post).
 
 ###### price
 Price for Cardoo product for the customer as a [Money Object](#money-object).
@@ -186,7 +186,7 @@ Example request body:
 ```json
 {
   "partner_order_id": "X666",
-  "price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
+  "deposit_free_price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
   "customer": {
     "first_name": "Jane",
     "last_name": "Doe",
@@ -211,16 +211,6 @@ Example request body:
       "cents": 10000,
       "currency_iso": "EUR"
     }
-  },
-  "deposit_free": {
-    "price": {
-      "cents": 2800,
-      "currency_iso": "EUR"
-    },
-    "deposit_amount": {
-      "cents": 500000,
-      "currency_iso": "EUR"
-    }
   }
 }
 ```
@@ -229,9 +219,9 @@ Example request body:
 
 Order ID in your system
 
-###### price_request_id
+###### deposit_free_price_request_id
 
-This is the ID that you got when [requesting the price](#post-partner_apiprice_request)
+This is the ID that you got when [requesting deposit free price](#api-orders-onetime-price-request)
 
 ###### customer
 
@@ -278,7 +268,7 @@ URL that will be triggered with a POST request when Cardoo guarantee state chang
 
 ###### redirects
 
-Object with URLs where the customer will be redirected to.
+*Optional* Object with URLs where the customer will be redirected to.
 
 `success_url`
 The URL for redirecting the customer in case of successfully completing a transaction with Cardoo.
@@ -309,16 +299,12 @@ Example response body:
 ```json
 {
   "order_id": "3a58ed01-9fab-45b4-b22b-c84478e68f1d",
-  "invoice_id": "b0427f76-b23c-49f9-b24d-91e300e6a6c6",
   "customer_flow_url": "https://customer-flow.cardoo.finance/orders/3a58ed01-9fab-45b4-b22b-c84478e68f1d/flow"
 }
 ```
 
 ###### order_id
 UUID of the created one-time order.
-
-###### invoice_id
-UUID of the invoice for the created one-time order.
 
 ###### customer_flow_url
 URL where the customer must be redirected for starting a transaction with Cardoo.
