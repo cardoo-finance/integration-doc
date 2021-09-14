@@ -24,7 +24,7 @@
 - **Order** - An entity, a collection of services in a context of a specified car rental booking
 - **One-time Order** - A type of order with fixed pickup and drop-off dates and no recurring payments.
 - **Order Approval Process** - Our internal process aimed to determine whether we are willing to issue a Guarantee 
-- **Price Request** - A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters 
+- **Deposit Free Price Request** - A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters 
 
 
 ## Flow Overview <a name="flow-overview"></a>
