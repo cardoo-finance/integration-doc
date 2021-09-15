@@ -61,7 +61,7 @@ There's a few key differences from the production mode:
 - Automatic customer identification and verification process is not available, but you can still experience this part of the process from customer's point of view.
 - You will have to manually issue or deny the Guarantee (this is available only in the sandbox mode). 
 
-To use the sandbox mode, please, use the following URL to send HTTP requests: https://sandbox-api.cardoo.finance
+To use the sandbox mode, please, use the following URL to send HTTP requests: <https://sandbox-api.cardoo.finance>
 
 ### Bank Card Test Data
 On the payment page of our Customer Flow you can enter the following card details to successfully pay:
