@@ -6,7 +6,7 @@
 - [Flow Overview](#flow-overview)
   - [Customer’s Point of View](#customers-pov)
   - [Your System’s Point of View](#your-systems-pov)
-- [Testing Guidelines](#)
+- [Testing Guideline](#testing-guideline)
 - [API Reference](#api-reference)
   - [Overview](#api-overview)
   - [One-time orders](#api-orders-onetime)
@@ -37,6 +37,7 @@ Our solution implements all the crucial steps, which are:
 These steps will be described in following sections from the points of view of a customer and your system.
 
 ### Customer’s Point of View  <a name="customers-pov"></a>
+
 A customer is browsing a website of one of our partners and looking for a car to rent for a specified time interval. 
 When they open a detailed view of one of the rental offers there’s a section with additional services which includes our product - Deposit Free - with a price. 
 If a customer chooses to use our solution and proceeds to book, they get redirected to our Customer Flow page where they: 
@@ -53,6 +54,29 @@ When a customer chooses our solution and starts the booking process, your system
 
 After our order approval process has been completed, your system will receive a signal which will not contain the actual decision. Upon receiving that signal your system should make a request to our system to get our decision. 
 
+## Testing Guideline <a name="testing-guideline"></a>
+You need to use the sandbox mode to test integrations.
+There's a few key differences from the production mode:
+- No real bank card will be accepted, you need to use test card data. 
+- Automatic customer identification and verification process is not available, but you can still experience this part of the process from customer's point of view.
+- You will have to manually issue or deny the Guarantee (this is available only in the sandbox mode). 
+
+To use the sandbox mode, please, use the following URL to send HTTP requests: https://sandbox-api.cardoo.finance
+
+### Bank Card Test Data
+On the payment page of our Customer Flow you can enter the following card details to successfully pay:
+
+**Bank card number**: 4111 1111 1111 1111
+
+**Expiry date, MM/YY**: any date larger or equal to the present
+
+**CSC/CVV**: 000
+
+**Card holder name**: any combination of English letters and spaces
+
+
+### Issuing or Denying the Guarantee
+TODO: TODO!
 
 # API Reference <a name="api-reference"></a>
 ## Overview  <a name="api-overview"></a>
@@ -68,7 +92,7 @@ All requests to Cardoo API must be authenticated.
 
 In order to make an authenticated request, include a header containing your token as follows: `Access-Token: YOUR_TOKEN`.
 
-**TODO:** Add information on how to receive the Token.
+To receive the access token, please, contact us via <sales@cardoo.finance>. 
 
 #### Responses
 In general, if the status of the response is in the 200 range, it indicates that the request was fulfilled successfully and no error was encountered.
@@ -100,8 +124,6 @@ Monetary values are represented as an object with value in cents and currency in
   "currency_iso": "eur"
 }
 ```
-
-
 
 ## Price Request <a name="api-orders-onetime-price-request"></a>
 Price request endpoint allows you to request a price of our product for a customer.
