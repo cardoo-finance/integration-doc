@@ -76,7 +76,21 @@ On the payment page of our Customer Flow you can enter the following card detail
 
 
 ### Issuing or Denying the Guarantee
-TODO: TODO!
+
+**Note** Described API endpoints are only available in Sandbox.
+
+#### POST /partner_api/sandbox/orders/:order_id/guarantee_issuance/issue
+For emulating issuance of the guarantee by Cardoo, send a POST request with empty body to this URL.
+
+When the guarantee issuance state has been successfully changed to "issued", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_state_changed`, if you have specified it.
+
+
+#### POST /partner_api/sandbox/orders/:order_id/guarantee_issuance/deny
+For emulating denial of the guarantee issuance by Cardoo, send a POST request with empty body to this URL.
+
+When the guarantee issuance state has been successfully changed to "denied", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_state_changed`, if you have specified it.
+
+
 
 # API Reference <a name="api-reference"></a>
 ## Overview  <a name="api-overview"></a>
