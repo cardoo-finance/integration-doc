@@ -10,9 +10,9 @@
 - [API Reference](#api-reference)
   - [Overview](#api-overview)
   - [One-time orders](#api-orders-onetime)
-    - [Price Request (POST)](#api-orders-onetime-price-request)
+    - [Deposit Free Price Request (POST)](#api-orders-onetime-price-request)
     - [Creating an Order (POST)](#api-orders-onetime-post)
-    - [Getting order details (GET)](#api-orders-onetime-get)
+    - [Getting Order States Details (GET)](#api-orders-onetime-get)
   - [Callbacks](#api-callbacks)
 
 ## Definitions <a name="definitions"></a>
@@ -56,7 +56,7 @@ After our order approval process has been completed, your system will receive a 
 
 ## Testing Guideline <a name="testing-guideline"></a>
 You need to use the sandbox mode to test integrations.
-There's a few key differences from the production mode:
+There are a few key differences from the production mode:
 - No real bank card will be accepted, you need to use test card data. 
 - Automatic customer identification and verification process is not available, but you can still experience this part of the process from customer's point of view.
 - You will have to manually issue or deny the Guarantee (this is available only in the sandbox mode). 
@@ -139,7 +139,7 @@ Monetary values are represented as an object with value in cents and currency in
 }
 ```
 
-## Price Request <a name="api-orders-onetime-price-request"></a>
+## Deposit Free Price Request <a name="api-orders-onetime-price-request"></a>
 Price request endpoint allows you to request a price of our product for a customer.
 
 
@@ -189,7 +189,7 @@ Example response body:
 {
   "deposit_free_price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
   "timestamp": 1631556435543,
-  "deposit_free_price": {
+  "price": {
     "cents": 12000,
     "currency_iso": "EUR"
   }
@@ -222,17 +222,16 @@ Example request body:
 ```json
 {
   "partner_order_id": "X666",
-  "deposit_free_price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
   "customer": {
     "first_name": "Jane",
     "last_name": "Doe",
     "email": "jane@gmail.com",
     "phone_number": "+1-541-754-3010"
   },
-  "pickup_time": "2021-12-24T10:00:00+00:00",
-  "dropoff_time": "2021-12-28T10:00:00+00:00",
-  "city": "Italy",
-  "country": "Florence",
+  "pickup_time": "2021-12-24T10:00:00+02:00",
+  "dropoff_time": "2021-12-28T10:00:00+02:00",
+  "city": "Florence",
+  "country": "Italy",
   "vehicle": "BMW I5",
   "callbacks": {
     "guarantee_state_changed": "https://callback_url"
@@ -240,6 +239,13 @@ Example request body:
   "redirects": {
     "success_url": "https://success",
     "failure_url": "https://failure_url"
+  },
+  "deposit_free": {
+    "deposit_free_price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
+    "deposit_amount": {
+      "cents": 500000,
+      "currency_iso": "EUR"
+    }
   },
   "acquiring": {
     "prepay": "full",
@@ -254,10 +260,6 @@ Example request body:
 ###### partner_order_id
 
 Order ID in your system
-
-###### deposit_free_price_request_id
-
-This is the ID that you got when [requesting deposit free price](#api-orders-onetime-price-request)
 
 ###### customer
 
@@ -322,10 +324,10 @@ The URL for redirecting the customer in case he fails to complete a transaction 
  `price`
 Amount that must be charged from a customer and transferred to the car rental company [Money Object](#money-object).
 
-**deposit_fee**
+**deposit_free**
 
-`price`
-Price for Cardoo's Deposit Free product (see [Definitions](#definitions)) for the customer as a [Money Object](#money-object).
+`deposit_free_price_request_id`
+This is the ID that you got by [requesting the Deposit Free price](#api-orders-onetime-price-request)
 
 `deposit_amount`
 Deposit amount for the vehicle as a [Money Object](#money-object).
@@ -347,7 +349,7 @@ URL where the customer must be redirected for starting a transaction with Cardoo
 
 
 
-## Getting order details <a name="api-orders-onetime-get"></a>
+## Getting Order States Details <a name="api-orders-onetime-get"></a>
 Orders endpoint allows you to get order information, along with its guarantee issuance state and payment state.
 
 
