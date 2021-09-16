@@ -360,58 +360,13 @@ Example response body:
 ```json
 {
   "order_id": "3a58ed01-9fab-45b4-b22b-c84478e68f1d",
-  "invoice_id": "b0427f76-b23c-49f9-b24d-91e300e6a6c6",
-  "customer_flow_url": "https://customer-flow.cardoo.finance/orders/3a58ed01-9fab-45b4-b22b-c84478e68f1d/flow",
   "guarantee_issuance_state": "issued",
-  "invoice_state": "paid",
-  "partner_order_id": "X666",
-  "price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
-  "customer": {
-    "first_name": "Jane",
-    "last_name": "Doe",
-    "email": "jane@gmail.com",
-    "phone_number": "+1-541-754-3010"
-  },
-  "pickup_time": "2021-12-24T10:00:00+00:00",
-  "dropoff_time": "2021-12-28T10:00:00+00:00",
-  "city": "Italy",
-  "country": "Florence",
-  "vehicle": "BMW I5",
-  "callbacks": {
-    "guarantee_state_changed": "https://callback_url"
-  },
-  "redirects": {
-    "success_url": "https://success",
-    "failure_url": "https://failure_url"
-  },
-  "acquiring": {
-    "prepay": "full",
-    "price": {
-      "cents": 10000,
-      "currency_iso": "EUR"
-    }
-  },
-  "deposit_free": {
-    "price": {
-      "cents": 2800,
-      "currency_iso": "EUR"
-    },
-    "deposit_amount": {
-      "cents": 500000,
-      "currency_iso": "EUR"
-    }
-  }
+  "invoice_state": "paid"
 }
 ```
 
 ###### order_id
 UUID of the one-time order.
-
-###### invoice_id
-UUID of the invoice for the created one-time order.
-
-###### customer_flow_url
-URL where the customer must be redirected for starting a transaction with Cardoo.
 
 ###### guarantee_issuance_state
 Cardoo guarantee issuance state of the order. Can be one of:
@@ -426,10 +381,6 @@ Payment state of the order. Can be one of:
 - `issued` - invoice was issued, but not yet paid
 - `paid` - invoice was paid
 - `failed` - invoice was not paid due to some failure
-
-###### Order properties
-Rest of the fields contain properties of the rental, callback and redirect URLs for this order, as well as properties of Cardoo product. For more details about these fields, please refer to ["Creating an Order (POST)"](#api-orders-onetime-post) section.
-
 
 
 ## Callbacks <a name="api-callbacks"></a>
