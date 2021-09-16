@@ -380,7 +380,8 @@ Payment state of the order. Can be one of:
 
 - `issued` - invoice was issued, but not yet paid
 - `paid` - invoice was paid
-- `failed` - invoice was not paid due to some failure
+- `hold` - invoice amount is being hold from the customer account
+- `cancelled` - invoice was cancelled
 
 
 ## Callbacks <a name="api-callbacks"></a>
