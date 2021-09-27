@@ -82,13 +82,13 @@ On the payment page of our Customer Flow you can enter the following card detail
 #### POST /partner_api/sandbox/orders/:order_id/guarantee_issuance/issue
 For emulating issuance of the guarantee by Cardoo, send a POST request with empty body to this URL.
 
-When the guarantee issuance state has been successfully changed to "issued", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_state_changed`, if you have specified it.
+When the guarantee issuance state has been successfully changed to "issued", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_status_changed`, if you have specified it.
 
 
 #### POST /partner_api/sandbox/orders/:order_id/guarantee_issuance/deny
 For emulating denial of the guarantee issuance by Cardoo, send a POST request with empty body to this URL.
 
-When the guarantee issuance state has been successfully changed to "denied", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_state_changed`, if you have specified it.
+When the guarantee issuance state has been successfully changed to "denied", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_status_changed`, if you have specified it.
 
 
 
@@ -234,7 +234,7 @@ Example request body:
   "country": "Italy",
   "vehicle": "BMW I5",
   "callbacks": {
-    "guarantee_state_changed": "https://callback_url"
+    "guarantee_status_changed": "https://callback_url"
   },
   "redirects": {
     "success_url": "https://success",
@@ -301,7 +301,7 @@ Vehicle name as a string.
 
 *Optional* Object with callbacks URLs. You can find more details about callbacks logic in [Callbacks](#callbacks) section.
 
- `guarantee_state_changed`
+ `guarantee_status_changed`
 URL that will be triggered with a POST request when Cardoo guarantee state changes.
 
 ###### redirects
