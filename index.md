@@ -19,12 +19,12 @@
 - **Acquiring** - Receiving car rental fee from customers' bank payment cards and transferring it to the car rental company in scope of the sales agency contract between Cardoo and the car rental company. 
 - **Customer** - A person renting a car 
 - **Deposit Free** - A service enabling a customer to rent a car without making a security deposit 
-- **Issued Guarantee** - A legally binding commitment between Cardoo and a car rental company in accordance with a contract in a context of an Order 
-- **Guarantee State** - Our decision regarding guarantee issuance 
-- **Order** - An entity, a collection of services in a context of a specified car rental booking
+- **Issued Guarantee** - Cardoo’s legally binding commitment to pay to the car rental company the value of possible losses arisen from the respective car rental
+- **Guarantee Status** - Cardoo’s guarantee status indicating whether such guarantee has been issued or denied 
+- **Order** - Cardoo’s Deposit Free service request by a customer with respect to an underlying car rental booking
 - **One-time Order** - A type of order with fixed pickup and drop-off dates and no recurring payments.
-- **Order Approval Process** - Our internal process aimed to determine whether we are willing to issue a Guarantee 
-- **Deposit Free Price Request** - A request to calculate the cost of a Deposit Free service in a context of a specified car rental parameters 
+- **Order Approval Process** - Cardoo’s internal procedures related to the customer assessment and resolution on the Guarantee Status 
+- **Deposit Free Price Request** - A request to calculate the price of the Deposit Free service with respect to the specified car rental parameters 
 
 
 ## Flow Overview <a name="flow-overview"></a>
@@ -34,41 +34,44 @@ Our solution implements all the crucial steps, which are:
 * Identification and verification of a customer
 * Communicating with your system via API regarding the status of verification/approval process
 
-These steps will be described in following sections from the points of view of a customer and your system.
+These steps will be described in the following sections from the points of view of a customer and your system.
 
-### Customer’s Point of View  <a name="customers-pov"></a>
+### Customer Experience  <a name="customers-pov"></a>
 
-A customer is browsing a website of one of our partners and looking for a car to rent for a specified time interval. 
-When they open a detailed view of one of the rental offers there’s a section with additional services which includes our product - Deposit Free - with a price. 
-If a customer chooses to use our solution and proceeds to book, they get redirected to our Customer Flow page where they: 
+A customer may browse our partner car rental company’s web site for a specified time interval. When they open a detailed view of a rental offer, they find a section with additional services which includes our product Deposit Free and its price. If a customer chooses to use our solution and proceeds to book, they get redirected to our Customer Flow page where they:
 * pay for an order 
 * upload their ID document. 
 
-After completion of these steps the order undergoes the approval process which includes verification of a customer.
-When the decision is made to either approve or reject the order, the corresponding email will be sent to a customer. In case of approval a customer will also receive an issued guarantee agreement. In case of rejection we will unhold the money on a customer's card within 24 hours.
+After completion of these steps the order undergoes the approval process which includes KYC procedure. 
 
-### Your System’s Point of View <a name="your-systems-pov"></a>
-Your system forms the list of additional services for a specific car rental offer. To get a price for Cardoo’s Deposit Free your system has to make the price request to our system.
+When the decision is made to either approve or reject the order, the corresponding email will be sent to the customer. 
 
-When a customer chooses our solution and starts the booking process, your system will need to make the order creation request to our system and in response will get an URL to the Customer Flow. Your system will need to redirect a customer to that URL instead of your usual payment page.
+In case of approval, the customer will also receive an issued guarantee agreement. 
+
+In case of rejection, we will unblock the money on the customer’s payment card within 24 hours.
+
+### Your System Routine <a name="your-systems-pov"></a>
+Your system creates the list of additional services for a specific car rental offer. To get a price for Cardoo’s Deposit Free your system has to make the price request to our system.
+
+When a customer chooses our solution and starts the booking process, your system will need to make an order creation request to our system and in response it will get an URL to the Customer Flow. Your system will redirect the customer to that URL instead of your usual payment page.
 
 After our order approval process has been completed, your system will receive a signal which will not contain the actual decision. Upon receiving that signal your system should make a request to our system to get our decision. 
 
 ## Testing Guideline <a name="testing-guideline"></a>
-You need to use the sandbox mode to test integrations.
+Please use the sandbox mode to test integrations.
 There are a few key differences from the production mode:
-- No real bank card will be accepted, you need to use test card data. 
-- Automatic customer identification and verification process is not available, but you can still experience this part of the process from customer's point of view.
+- No real bank card will be accepted, please use a test card data. 
+- Automatic customer identification and verification process is not available, but you can still experience this part of the process interacting as a customer.
 - You will have to manually issue or deny the Guarantee (this is available only in the sandbox mode). 
 
 To use the sandbox mode, please, use the following URL to send HTTP requests: <https://sandbox-api.cardoo.finance>
 
-### Bank Card Test Data
-On the payment page of our Customer Flow you can enter the following card details to successfully pay:
+### Bank Payment Card Test Data
+You can enter the following payment card details on the payment page of our Customer Flow in order to successfully pay:
 
 **Bank card number**: 4111 1111 1111 1111
 
-**Expiry date, MM/YY**: any date larger or equal to the present
+**Expiry date, MM/YY**: any date later or equal to the present
 
 **CSC/CVV**: 000
 
@@ -82,13 +85,13 @@ On the payment page of our Customer Flow you can enter the following card detail
 #### POST /partner_api/sandbox/orders/:order_id/guarantee_issuance/issue
 For emulating issuance of the guarantee by Cardoo, send a POST request with empty body to this URL.
 
-When the guarantee issuance state has been successfully changed to "issued", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_status_changed`, if you have specified it.
+When the guarantee issuance status has been successfully changed to "issued", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_status_changed`, if you have specified it.
 
 
 #### POST /partner_api/sandbox/orders/:order_id/guarantee_issuance/deny
 For emulating denial of the guarantee issuance by Cardoo, send a POST request with empty body to this URL.
 
-When the guarantee issuance state has been successfully changed to "denied", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_status_changed`, if you have specified it.
+When the guarantee issuance status has been successfully changed to "denied", the response would have status `200 OK` and an empty body. This would also trigger callback `guarantee_status_changed`, if you have specified it.
 
 
 
@@ -104,7 +107,7 @@ When passing parameters in a POST request, parameters must be passed as a JSON o
 #### Authentication
 All requests to Cardoo API must be authenticated.
 
-In order to make an authenticated request, include a header containing your token as follows: `Access-Token: YOUR_TOKEN`.
+In order to make an authenticated request, please include a header containing your token as follows: `Access-Token: YOUR_TOKEN`.
 
 To receive the access token, please, contact us via <sales@cardoo.finance>. 
 
@@ -302,7 +305,7 @@ Vehicle name as a string.
 *Optional* Object with callbacks URLs. You can find more details about callbacks logic in [Callbacks](#callbacks) section.
 
  `guarantee_status_changed`
-URL that will be triggered with a POST request when Cardoo guarantee state changes.
+URL that will be triggered with a POST request when Cardoo guarantee status changes.
 
 ###### redirects
 
@@ -312,14 +315,14 @@ URL that will be triggered with a POST request when Cardoo guarantee state chang
 The URL for redirecting the customer in case of successfully completing a transaction with Cardoo.
 
 `failure_url`
-The URL for redirecting the customer in case he fails to complete a transaction with Cardoo.
+The URL for redirecting the customer in case they fail to complete a transaction with Cardoo.
 
 ###### acquiring
 
 *Optional* See [Definitions](#definitions) for the description of our Acquiring service.
 
 `prepay`
-*Optional* Indicates whether the acquiring sum is full rental price or just part of it. Can be  `full` or `partial`.
+*Optional* Indicates whether the full rental price is subject for our acquiring or just a part of it. Value can either be `full` or `partial`.
 
  `price`
 Amount that must be charged from a customer and transferred to the car rental company [Money Object](#money-object).
@@ -362,7 +365,7 @@ Example response body:
 ```json
 {
   "order_id": "3a58ed01-9fab-45b4-b22b-c84478e68f1d",
-  "guarantee_issuance_state": "issued",
+  "guarantee_issuance_status": "issued",
   "invoice_state": "paid"
 }
 ```
@@ -370,19 +373,19 @@ Example response body:
 ###### order_id
 UUID of the one-time order.
 
-###### guarantee_issuance_state
-Cardoo guarantee issuance state of the order. Can be one of:
+###### guarantee_issuance_status
+Cardoo guarantee issuance status of the order. It may be one of the following:
 
  - `pending` - decision hasn’t been made yet
  - `issued` - guarantee has been successfully issued
  - `denied` - guarantee has been denied
 
 ###### invoice_state
-Payment state of the order. Can be one of:
+Payment state of the order. It may be one of the following:
 
 - `issued` - invoice was issued, but not yet paid
 - `paid` - invoice was paid
-- `hold` - invoice amount is being hold from the customer account
+- `hold` - invoice amount is pu on hold on the customer payment card
 - `cancelled` - invoice was cancelled
 
 
@@ -393,5 +396,5 @@ When the order state changes, we will make a POST request with an empty body to 
 
 If the URL that you provided as a callback URL is not available when we trigger the callback request, or returns a 500 status code, we will retry the request with increasing time intervals.
 
-#### Guarantee state changed
+#### Guarantee status changed
 This callback is triggered, when Cardoo issues or denies guarantee to the customer.
