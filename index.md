@@ -172,7 +172,7 @@ Example request body:
 
 ###### vehicle
 
-Vehicle name as a string.
+*Optional* Vehicle name as a string.
 
 ###### session_cookie_id
 
