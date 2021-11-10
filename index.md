@@ -118,13 +118,16 @@ Return codes in the 400 range indicate some issue with the request that was sent
 
 A response status in 500 range indicates a server-side problem.
 
-#### Error Objects
-When you get a response in 400 range, it will contain an error object with code and a message:
+#### Error Object
+When you get a response in 400 range, it will contain an error object with code and a message, for example:
 
 ```json
 {
-  "status": 422,
-  "message": "Deposit amount has to be greater than zero"
+  "errors": {
+    "partner_order_id": [
+      "is empty"
+    ]
+  }
 }
 ```
 
@@ -269,10 +272,10 @@ Order ID in your system
 Customer object
 
  `first_name`
-Customer first name
+ *Optional* Customer first name
 
- `last_name`
-Customer last name
+ `last_name` 
+ *Optional* Customer last name
 
  `email`
 Customer email
@@ -298,7 +301,7 @@ City name.
 
 ###### vehicle
 
-Vehicle name as a string.
+*Optional* Vehicle name as a string.
 
 ###### callbacks
 
@@ -392,7 +395,17 @@ Payment state of the order. It may be one of the following:
 ## Callbacks <a name="api-callbacks"></a>
 Cardoo uses callbacks for notifying partners about changes in orders.
 
-When the order state changes, we will make a POST request with an empty body to a URL that you specified when creating an order.
+When the guarantee status changes, we will make a POST request with a JSON body to a URL that you specified when creating an order.
+
+In JSON body we send you 
+```JSON
+{
+  "order_id": "3a58ed01-9fab-45b4-b22b-c84478e68f1d",
+  "partner_order_id": "X666"
+}
+```
+
+You can use a distinct URL per each order or a universal one and rely on `order_id` (our internal ID) or `partner_order_id` (an ID you've specified during an order creation) value in a request's body.
 
 If the URL that you provided as a callback URL is not available when we trigger the callback request, or returns a 500 status code, we will retry the request with increasing time intervals.
 
