@@ -247,11 +247,7 @@ Example request body:
     "failure_url": "https://failure_url"
   },
   "deposit_free": {
-    "deposit_free_price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288",
-    "deposit_amount": {
-      "cents": 500000,
-      "currency_iso": "EUR"
-    }
+    "deposit_free_price_request_id": "76aed270-4b39-44ca-b6c2-a1b8d0b67288"
   },
   "acquiring": {
     "prepay": "full",
@@ -334,9 +330,6 @@ Amount that must be charged from a customer and transferred to the car rental co
 
 `deposit_free_price_request_id`
 This is the ID that you got by [requesting the Deposit Free price](#api-orders-onetime-price-request)
-
-`deposit_amount`
-Deposit amount for the vehicle as a [Money Object](#money-object).
 
 #### Response Body Schema
 Example response body:
