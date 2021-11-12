@@ -109,7 +109,7 @@ All requests to Cardoo API must be authenticated.
 
 In order to make an authenticated request, please include a header containing your token as follows: `Access-Token: YOUR_TOKEN`.
 
-To receive the access token, please, contact us via <sales@cardoo.finance>. 
+To receive the access token, please, contact us via <dev@cardoo.finance>. 
 
 #### Responses
 In general, if the status of the response is in the 200 range, it indicates that the request was fulfilled successfully and no error was encountered.
